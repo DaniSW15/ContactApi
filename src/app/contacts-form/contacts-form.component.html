@@ -1,0 +1,58 @@
+<h2>@if (contact) { Editar } @else { Crear } Contacto</h2>
+
+<div class="text-end">
+  <a class="btn btn-primary" routerLink="/">Volver</a>
+</div>
+
+<div class="row row-cols-3 justify-content-center">
+  @if(form) {
+    <div>
+        @if (errors.length) {
+          <div class="alert alert-danger">
+            <ul>
+              @for (error of errors; track error) {
+                <li>{{ error }}</li>
+              }
+            </ul>
+          </div>
+        }
+      <form [formGroup]="form" (ngSubmit)="create()" class="mt-5">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+          />
+            @if (form.get('name')?.hasError('required') && form.get('name')?.touched ) {
+              <p class="invalid-feedbock d-blockr">
+                El nombre es requerido
+              </p>
+            }
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+          />
+          @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
+            <p class="invalid-feedbock d-block">
+              El email es requerido
+            </p>
+          } @else if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+            <p class="invalid-feedbock d-block">
+              El email no es válido
+            </p>
+          }
+        </div>
+        <button type="submit" class="btn btn-primary">
+          @if (contact) { Editar } @else { Crear }
+        </button>
+      </form>
+    </div>
+  }
+</div>
